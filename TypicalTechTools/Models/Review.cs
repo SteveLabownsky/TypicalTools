@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TypicalTechTools.Models
 {
@@ -9,16 +10,10 @@ namespace TypicalTechTools.Models
         [Display(Name = "Review")]
         public string ReviewText { get; set; }
         [Display(Name = "Product Code")]
+        [ForeignKey("Product")]
         public int ProductCode { get; set; }
-
-        /// <summary>
-        /// Return a CSV formatted string of the a Review object
-        /// </summary>
-        /// <returns></returns>
-        public string ToCSVString()
-        {
-            return $"{ReviewId},{ReviewText},{ProductCode}";
-        }
+        public DateTime ReviewCreated {  get; set; } = DateTime.Now;
+        public virtual Product? Product { get; set; }
 
     }
 }

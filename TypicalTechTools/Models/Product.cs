@@ -8,6 +8,7 @@ namespace TypicalTechTools.Models
 {
     public class Product
     {
+        [Key]
         public int ProductCode { get; set; }
 
         [Required, StringLength(100)]

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using TypicalTechTools.DataAccess;
 using TypicalTechTools.Models.Data;
+using TypicalTechTools.Models.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,14 +16,15 @@ builder.Services.AddSession(c =>
 
 builder.Services.AddDistributedMemoryCache();
 
-builder.Services.AddSingleton<CsvParser>();
-
 //get connection string and context class
 var connString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<TTDBContext>(options =>
 {
     options.UseSqlServer(connString);
 });
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
 var app = builder.Build();
 

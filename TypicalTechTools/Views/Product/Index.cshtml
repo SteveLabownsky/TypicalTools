@@ -1,10 +1,26 @@
 ﻿@model IEnumerable<Product>
 @{
     ViewData["Title"] = "Home Page";
+
+    string search = Context.Session.GetString("searchProducts") ?? "";
+    Context.Session.SetString("searchProducts", "");
 }
 
 <div class="text-center">
     <h1>Products</h1>
+</div>
+<div>
+    <a asp-controller="Product" asp-action="CreateProduct" class="btn btn-primary">Create Product</a>
+</div>
+@*invisible character to split the buttons because I have no idea how to do it otherwise*@
+<div>
+    <small>‎  </small>
+</div>
+<div>
+    <form asp-action="ShowSearchResults">
+        <input type="submit" value="Search" class="btn btn-primary" />
+        <input name="search" />
+    </form>
 </div>
 
 <div class="card-container row">
@@ -15,8 +31,12 @@
                 <h3>$@product.ProductPrice</h3>
                 <p style="height:12rem">@product.ProductDescription</p>
                 <small>Product Code: @product.ProductCode</small>
+                <small>Last Updated: @product.Updated</small>
                 <div>
                     @Html.ActionLink("Reviews", "ReviewList", "Review", new {id = product.ProductCode }, new {@class= "btn btn-primary m-2" })
+                </div>
+                <div>
+                    @Html.ActionLink("Update Price", "UpdateProduct", "Product", new {id = product.ProductCode }, new {@class= "btn btn-primary m-2" })
                 </div>
                 
         </div>

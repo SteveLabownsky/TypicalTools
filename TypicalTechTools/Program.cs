@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using TypicalTechTools.DataAccess;
+using TypicalTechTools.Models.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,13 @@ builder.Services.AddSession(c =>
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSingleton<CsvParser>();
+
+//get connection string and context class
+var connString = builder.Configuration.GetConnectionString("Default");
+builder.Services.AddDbContext<TTDBContext>(options =>
+{
+    options.UseSqlServer(connString);
+});
 
 var app = builder.Build();
 

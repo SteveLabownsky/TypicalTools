@@ -12,8 +12,8 @@ using TypicalTechTools.Models.Data;
 namespace TypicalTechTools.Migrations
 {
     [DbContext(typeof(TTDBContext))]
-    [Migration("20260403060219_Initial")]
-    partial class Initial
+    [Migration("20260406074547_second")]
+    partial class second
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,7 +60,7 @@ namespace TypicalTechTools.Migrations
                             ProductDescription = "bluetooth headphones with fair battery life and a 1 month warranty",
                             ProductName = "Generic Headphones",
                             ProductPrice = 84.99m,
-                            Updated = new DateTime(2026, 4, 3, 16, 2, 18, 73, DateTimeKind.Local).AddTicks(2782)
+                            Updated = new DateTime(2026, 4, 6, 17, 45, 46, 199, DateTimeKind.Local).AddTicks(4823)
                         },
                         new
                         {
@@ -68,7 +68,7 @@ namespace TypicalTechTools.Migrations
                             ProductDescription = "bluetooth headphones with good battery life and a 6 month warranty",
                             ProductName = "Expensive Headphones",
                             ProductPrice = 149.99m,
-                            Updated = new DateTime(2026, 4, 3, 16, 2, 18, 73, DateTimeKind.Local).AddTicks(2799)
+                            Updated = new DateTime(2026, 4, 6, 17, 45, 46, 199, DateTimeKind.Local).AddTicks(4843)
                         },
                         new
                         {
@@ -76,7 +76,7 @@ namespace TypicalTechTools.Migrations
                             ProductDescription = "bluetooth headphones with good battery life and a 12 month warranty",
                             ProductName = "Name Brand Headphones",
                             ProductPrice = 199.99m,
-                            Updated = new DateTime(2026, 4, 3, 16, 2, 18, 73, DateTimeKind.Local).AddTicks(2800)
+                            Updated = new DateTime(2026, 4, 6, 17, 45, 46, 199, DateTimeKind.Local).AddTicks(4844)
                         },
                         new
                         {
@@ -84,7 +84,7 @@ namespace TypicalTechTools.Migrations
                             ProductDescription = "simple bluetooth pointing device",
                             ProductName = "Generic Wireless Mouse",
                             ProductPrice = 39.99m,
-                            Updated = new DateTime(2026, 4, 3, 16, 2, 18, 73, DateTimeKind.Local).AddTicks(2801)
+                            Updated = new DateTime(2026, 4, 6, 17, 45, 46, 199, DateTimeKind.Local).AddTicks(4845)
                         },
                         new
                         {
@@ -92,7 +92,7 @@ namespace TypicalTechTools.Migrations
                             ProductDescription = "mouse and keyboard wired combination",
                             ProductName = "Logitach Mouse and Keyboard",
                             ProductPrice = 73.99m,
-                            Updated = new DateTime(2026, 4, 3, 16, 2, 18, 73, DateTimeKind.Local).AddTicks(2802)
+                            Updated = new DateTime(2026, 4, 6, 17, 45, 46, 199, DateTimeKind.Local).AddTicks(4846)
                         },
                         new
                         {
@@ -100,7 +100,7 @@ namespace TypicalTechTools.Migrations
                             ProductDescription = "quality wireless mouse",
                             ProductName = "Logitach Wireless Mouse",
                             ProductPrice = 149.99m,
-                            Updated = new DateTime(2026, 4, 3, 16, 2, 18, 73, DateTimeKind.Local).AddTicks(2803)
+                            Updated = new DateTime(2026, 4, 6, 17, 45, 46, 199, DateTimeKind.Local).AddTicks(4847)
                         });
                 });
 
@@ -115,11 +115,16 @@ namespace TypicalTechTools.Migrations
                     b.Property<int>("ProductCode")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("ReviewCreated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("ReviewText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ReviewId");
+
+                    b.HasIndex("ProductCode");
 
                     b.ToTable("Reviews");
 
@@ -128,26 +133,41 @@ namespace TypicalTechTools.Migrations
                         {
                             ReviewId = 1,
                             ProductCode = 12345,
+                            ReviewCreated = new DateTime(2026, 4, 6, 17, 45, 46, 199, DateTimeKind.Local).AddTicks(4963),
                             ReviewText = "This is a great product. Highly Recommended."
                         },
                         new
                         {
                             ReviewId = 2,
                             ProductCode = 12350,
+                            ReviewCreated = new DateTime(2026, 4, 6, 17, 45, 46, 199, DateTimeKind.Local).AddTicks(4967),
                             ReviewText = "Not worth the excessive price. Stick with a cheaper generic one."
                         },
                         new
                         {
                             ReviewId = 3,
                             ProductCode = 12345,
+                            ReviewCreated = new DateTime(2026, 4, 6, 17, 45, 46, 199, DateTimeKind.Local).AddTicks(4968),
                             ReviewText = "A great budget buy. As good as some of the expensive alternatives."
                         },
                         new
                         {
                             ReviewId = 4,
                             ProductCode = 12347,
+                            ReviewCreated = new DateTime(2026, 4, 6, 17, 45, 46, 199, DateTimeKind.Local).AddTicks(4969),
                             ReviewText = "Total garbage. Never buying this brand again!"
                         });
+                });
+
+            modelBuilder.Entity("TypicalTechTools.Models.Review", b =>
+                {
+                    b.HasOne("TypicalTechTools.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

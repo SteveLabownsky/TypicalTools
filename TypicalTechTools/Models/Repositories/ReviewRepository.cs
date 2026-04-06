@@ -14,22 +14,25 @@ namespace TypicalTechTools.Models.Repositories
 
         public void AddReview(Review review)
         {
-            throw new NotImplementedException();
+            _context.Reviews.Add(review);
+            _context.SaveChanges();
         }
 
         public void DeleteReview(Review review)
         {
-            throw new NotImplementedException();
+            _context.Reviews.Remove(review);
+            _context.SaveChanges();
         }
 
         public void EditReview(Review review)
         {
-            throw new NotImplementedException();
+            _context.Reviews.Update(review);
+            _context.SaveChanges();
         }
 
         public Review GetReviewById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Reviews.Where(r => r.ReviewId == id).FirstOrDefault();
         }
 
         public List<Review> GetReviews(int productCode)
